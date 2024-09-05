@@ -9,21 +9,19 @@ public class ExpireDateCalculatorTest {
 
     @Test
     void pay_10000_Then_One_Month(){
-        LocalDate billingDate = LocalDate.of(2019,3,1);
-        int payAmount = 10_000;
+        assertExpireDate(
+                LocalDate.of(2019,3,1), 10_000,
+                LocalDate.of(2019,4,1));
 
+        assertExpireDate(
+                LocalDate.of(2019,5,5), 10_000,
+                LocalDate.of(2019,6,5));
+
+    }
+
+    private void assertExpireDate(LocalDate billingDate, int payAmount, LocalDate expectedExpireDate){
         ExpireDateCalculator cal = new ExpireDateCalculator();
-        LocalDate expireDate = cal.calculatorExpiryDate(billingDate, payAmount);
-
-        assertEquals(expireDate, LocalDate.of(2019,4,1));
-
-        LocalDate billingDate2 = LocalDate.of(2019,5,5);
-        int payAmount2 = 10_000;
-
-        ExpireDateCalculator cal2 = new ExpireDateCalculator();
-        LocalDate expireDate2 = cal2.calculatorExpiryDate(billingDate2, payAmount2);
-
-        assertEquals(expireDate2, LocalDate.of(2019,6,5));
-
+        LocalDate realExpireDate = cal.calculatorExpiryDate(billingDate, payAmount);
+        assertEquals(realExpireDate, expectedExpireDate);
     }
 }
